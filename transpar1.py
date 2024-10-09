@@ -50,7 +50,7 @@ step = "активное"
 
 step = "таймер"
 
-
+import win32gui
 import tkinter as tk
 from screeninfo import get_monitors
 # Функция для вычисления суммарной ширины всех экранов
@@ -60,8 +60,7 @@ def get_total_screen_width():
     return total_width
 # Функция для получения высоты основного экранаghjg
 def get_screen_height():
-    print(root.winfo_screenheight())
-    return root.winfo_screenheight()-200
+    return root.winfo_screenheight()
 
 def on_submit(razm):
     entered_text = entry.get()
@@ -71,29 +70,31 @@ def on_submit(razm):
         root.geometry("0x0")
         # Через некоторое время восстанавливаем размер
         mnt = 0.1  # в минутах
-        root.after(int(mnt*60000), lambda: restore_window(razm))
+        root.after(int(mnt * 60000), lambda: restore_window(razm))
     else:
         print(f"Введенный текст: {entered_text}")
         # Окно остается без изменений
 
 def restore_window(razm):
     # Восстанавливаем исходный размер окна
-    root.geometry(f"{razm}+0-100")#root.geometry(f"{razm}+{root.winfo_screenwidth()//2 - 150}-100")
+    root.geometry(razm)#root.geometry(f"{razm}+{root.winfo_screenwidth()//2 - 150}-100")
 
 # Создаем главное окно
 root = tk.Tk()
 root.title("Ввод текста")
+root.overrideredirect(True)  # Убираем заголовок окна
+#root.attributes("-fullscreen", True)
 # Получаем ширину всех экранов и высоту основного экрана
 total_width = get_total_screen_width()
 screen_height = get_screen_height()
-razm = f"{total_width}x{screen_height + 100}"
+razm = f"{total_width}x{screen_height}"
 
 # Устанавливаем размеры окна
 root.geometry(razm)
 
 # Устанавливаем окно поверх всех окон
 root.attributes("-topmost", True)
-root.geometry(f"{razm}+0-100")  # root.geometry(f"{razm}+{root.winfo_screenwidth()//2 - 150}-100")
+#root.geometry(f"{razm}+0-100")  # root.geometry(f"{razm}+{root.winfo_screenwidth()//2 - 150}-100")
 
 # Создаем метку с инструкцией
 label = tk.Label(root, text="Введите текст:")
