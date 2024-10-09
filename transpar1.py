@@ -58,7 +58,7 @@ def get_total_screen_width():
     monitors = get_monitors()
     total_width = sum([monitor.width for monitor in monitors])
     return total_width
-# Функция для получения высоты основного экрана
+# Функция для получения высоты основного экранаghjg
 def get_screen_height():
     print(root.winfo_screenheight())
     return root.winfo_screenheight()-200
